@@ -22,6 +22,10 @@ class UnauthorisedException extends AppException {
   UnauthorisedException([message]) : super(message, "Unauthorised: ");
 }
 
+class TimeOutException extends AppException {
+  TimeOutException([message]) : super(message, "time out: ");
+}
+
 class InvalidInputException extends AppException {
   InvalidInputException([String message]) : super(message, "Invalid Input: ");
 }

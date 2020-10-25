@@ -9,6 +9,5 @@ class APIBase{
     } else {
       return "https://jsonplaceholder.typicode.com";
     }
-
   }
 }

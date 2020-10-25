@@ -4,40 +4,28 @@ import 'package:web_debug/models/albums.dart';
 import 'package:web_debug/network_module/api_response.dart';
 import 'package:web_debug/repositories/album_repo.dart';
 
-class AlbumDetailsProvider with ChangeNotifier {
+class AlbumProviders extends ChangeNotifier {
   AlbumRepository _albumRepository;
 
-  ApiResponse<Album> _album;
+  ApiResponse<List<Album>> _album;
 
-  int id;
+  ApiResponse<List<Album>> get albums => _album;
 
-  ApiResponse<Album> get album => _album;
-
-  AlbumDetailsProvider(int id) {
+  AlbumProviders() {
     _albumRepository = AlbumRepository();
-    fetchAlbumDetails(id);
-    print("h2");
+    fetchAlbums();
   }
 
-  fetchAlbumDetails(int id) async {
+  fetchAlbums() async {
     _album = ApiResponse.loading('loading... ');
     notifyListeners();
     try {
-      Albums album = await _albumRepository.fetchAlbumDetails(id);
-      _album = ApiResponse.completed(album.albums[0]);
+      Albums album = await _albumRepository.fetchListOfAlbum();
+      _album = ApiResponse.completed(album.albums);
       notifyListeners();
     } catch (e) {
       _album = ApiResponse.error(e.toString());
       notifyListeners();
     }
-    print("hello");
-  }
-
-  int getCurrentAlbumId() {
-    return id;
-  }
-
-  setCurrentAlbumId(int id) {
-    id = this.id;
   }
 }

@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:web_debug/models/album_module.dart';
 
 import '../network_module/api_response.dart';
 import '../providers/album_details_provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  // Declare a field that holds the Album.
+  final Album album;
+
+  const HomePage({Key key, @required this.album}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text('Network Layer With Provider')),
-        body: Container(
-            padding: const EdgeInsets.all(20), child: albumTitle(context)),
+        body: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<AlbumDetailsProvider>(
+                create: (context) => AlbumDetailsProvider(album.id)),
+          ], child: albumTitle(context)),
       ),
     );
   }
